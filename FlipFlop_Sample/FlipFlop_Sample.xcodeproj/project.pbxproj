@@ -649,7 +649,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20230710.2;
+				MARKETING_VERSION = 1.20230710.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jocoos.FlipFlop-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -685,7 +685,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20230710.2;
+				MARKETING_VERSION = 1.20230710.3;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.jocoos.FlipFlop-Sample";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

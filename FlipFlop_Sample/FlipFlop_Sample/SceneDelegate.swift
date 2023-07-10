@@ -18,6 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         guard let windowScene = (scene as? UIWindowScene) else { return }
         
+        UIApplication.shared.isIdleTimerDisabled = true
+        
         DataStorage.host = "https://sample-app-sg.lite.flipflop.tv"
         
         window = UIWindow(frame: UIScreen.main.bounds)

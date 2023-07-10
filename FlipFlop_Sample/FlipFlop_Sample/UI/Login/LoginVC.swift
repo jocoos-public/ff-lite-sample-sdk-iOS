@@ -13,7 +13,6 @@ class LoginViewController: UIViewController {
     private var userImgView: UIImageView!
     private var refreshBtn: UIButton!
     private var nameField: UITextField!
-    private var ipField: UITextField!
     private var loginBtn: UIButton!
     private var contentSArea: UIScrollView!
     
@@ -86,40 +85,8 @@ class LoginViewController: UIViewController {
         border.backgroundColor = .veryLightPink
         contentSArea.addSubview(border)
         
-        var host = DataStorage.host
-        host = host.replacingOccurrences(of: "http://", with: "")
-        host = host.replacingOccurrences(of: ":3000", with: "")
-        
-        ipField = UITextField(frame: CGRect(x: 40,
-                                            y: nameField.getGapPos(gap: 20).y,
-                                            width: view.frame.width - 80,
-                                            height: 57))
-        ipField.backgroundColor = .clear
-        ipField.keyboardType = .decimalPad
-        ipField.delegate = self
-        ipField.returnKeyType = .continue
-        ipField.attributedPlaceholder = NSAttributedString(string: "HOST IP",
-                                                           attributes: [
-                                                                .foregroundColor: UIColor.black,
-                                                                .font: UIFont.systemFont(ofSize: 20, weight: .bold)
-                                                           ])
-        ipField.defaultTextAttributes = [
-            .foregroundColor: UIColor.black,
-            .font: UIFont.systemFont(ofSize: 20, weight: .bold)
-        ]
-        
-        ipField.text = host
-        contentSArea.addSubview(ipField)
-        
-        let secBorder = UIView(frame: CGRect(x: 40,
-                                          y: ipField.getGapPos(gap: 0).y,
-                                          width: view.frame.width - 80,
-                                          height: 1))
-        secBorder.backgroundColor = .veryLightPink
-        contentSArea.addSubview(secBorder)
-        
         let firstGuide = UILabel(frame: CGRect(x: 40,
-                                               y: secBorder.getGapPos(gap: 20).y,
+                                               y: border.getGapPos(gap: 20).y,
                                                width: view.frame.width - 80,
                                                height: 18))
         firstGuide.backgroundColor = .clear
@@ -247,14 +214,10 @@ extension LoginViewController: UIImagePickerControllerDelegate, UINavigationCont
 
 extension LoginViewController: UITextFieldDelegate {
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        if ipField.text?.isEmpty == false && nameField.text?.isEmpty == false {
+        if nameField.text?.isEmpty == false {
             textField.endEditing(true)
             loginAction()
             return true
-        }
-        
-        if textField == nameField {
-            ipField.becomeFirstResponder()
         }
         
         return true
