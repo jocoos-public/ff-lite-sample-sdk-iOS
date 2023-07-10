@@ -163,7 +163,13 @@ class LivePlayView: UIView {
     }
     
     func zoomAction(scale: CGFloat) {
-        player?.liveManager()?.zoom(factor: scale)
+        if scale < 1.0 {
+            player?.liveManager()?.zoom(factor: 1)
+        } else if scale > 2.0 {
+            player?.liveManager()?.zoom(factor: 2)
+        } else {
+            player?.liveManager()?.zoom(factor: scale)
+        }
     }
     
     func switchReverse() {

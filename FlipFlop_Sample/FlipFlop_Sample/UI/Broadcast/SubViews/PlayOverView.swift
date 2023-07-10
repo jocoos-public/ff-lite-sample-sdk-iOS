@@ -154,6 +154,17 @@ class PlayOverView: UIView {
         let gesture = UITapGestureRecognizer(target: self, action: #selector(closeKeyboard))
         gesture.numberOfTapsRequired = 1
         addGestureRecognizer(gesture)
+        
+        let pinch = UIPinchGestureRecognizer(target: self, action: #selector(doPinch(pinch: )))
+        addGestureRecognizer(pinch)
+    }
+    
+    @objc private func doPinch(pinch: UIPinchGestureRecognizer) {
+        if pinch.state == UIPinchGestureRecognizer.State.changed {
+            if let vc = findViewController() as? BroadcastViewController {
+                vc.changeZoomScale(scale: pinch.scale)
+            }
+        }
     }
     
     @objc private func closeKeyboard() {
