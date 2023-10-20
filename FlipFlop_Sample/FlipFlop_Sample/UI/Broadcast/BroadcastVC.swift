@@ -26,6 +26,7 @@ class BroadcastViewController: BaseViewController {
     private var effectView: EffectSetView!
     private var imgEffectView: ImageEffectView!
     
+    private var accessToken: String?
     private var streamKey: String?
     private var chatToken: String?
     private var appID: String?
@@ -33,9 +34,10 @@ class BroadcastViewController: BaseViewController {
     private var userName: String?
     private var videoRoomID: Int?
     private var channelKey: String?
-    private var broadcastContent: BroadcastContent?
     
     private var state: BroadcastState = .beforeStart
+    
+    private var indicator: NVActivityIndicatorView? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -60,70 +62,27 @@ class BroadcastViewController: BaseViewController {
         imgEffectView.isHidden = true
         view.addSubview(imgEffectView)
         
-        getStreamKey()
-        getChatToken()
-        createVideoRoom()
+        getAccessToken()
     }
     
-    private func getStreamKey() {
-        guard let userData = DataStorage.fflToken?.member else {return}
+    private func getAccessToken() {
+        guard let userData = DataStorage.loginUser else {return}
         
-        RequestManager.req(url: .getStreamKey,
+        // notice: do not use this code in your app.
+        //         get access token from your own server.
+        //         refer to the documentation
+        RequestManager.req(url: .postToken,
                            params: {
             return [
-                "memberId": userData.id
+                "appUserId": userData.id, "appUserName": userData.username
             ]
         },
-                           type: GetStreamKeyResModel.self) { [weak self] isComplete, response, error in
+                           type: Token.self) { [weak self] isComplete, response, error in
             guard let weakSelf = self else {return}
             
             if isComplete {
                 if let res = response {
-                    if let contents = res.content.first {
-                        weakSelf.broadcastContent = contents
-                        weakSelf.streamKey = contents.streamKey
-                        weakSelf.loadPlayer()
-                    }
-                }
-            }
-        }
-    }
-    
-    private func getChatToken() {
-        RequestManager.req(url: .postChatToken,
-                           type: ChatTokenResModel.self) { [weak self] isComplete, response, error in
-            guard let weakSelf = self else {return}
-            
-            if isComplete {
-                if let res = response {
-                    weakSelf.chatToken = res.chatToken
-                    weakSelf.appID = res.appID
-                    weakSelf.userID = res.userID
-                    weakSelf.userName = res.userName
-                    weakSelf.loadPlayer()
-                }
-            }
-        }
-    }
-    
-    private func createVideoRoom() {
-        RequestManager.req(url: .postVideoRooms,
-                           params: {
-            return [
-                "title": Date().convertISOTime(),
-                "type": "BROADCAST_RTMP",
-                "description": "Sample App test",
-                "accessLevel": "PUBLIC",
-                "scheduledAt": Date().convertISOTime()
-            ]
-        },
-                           type: PostVideoRoomResModel.self) { [weak self] isComplete, response, error in
-            guard let weakSelf = self else {return}
-            
-            if isComplete {
-                if let res = response {
-                    weakSelf.videoRoomID = res.id
-                    weakSelf.channelKey = res.chat.channelKey
+                    weakSelf.accessToken = res.accessToken
                     weakSelf.loadPlayer()
                 }
             }
@@ -131,15 +90,10 @@ class BroadcastViewController: BaseViewController {
     }
     
     private func loadPlayer() {
-        guard let streamKey = streamKey,
-        let chatToken = chatToken,
-            let appID = appID,
-            let userID = userID,
-            let userName = userName,
-            let channelKey = channelKey else { return }
+        guard let accessToken = accessToken else { return }
         
         DispatchQueue.main.async {
-            self.playView.setupPlayer(appID: appID, userID: userID, userName: userName, streamKey: streamKey, chatToken: chatToken, channelKey: channelKey)
+            self.playView.setupPlayer(accessToken: accessToken)
         }
     }
     
@@ -204,40 +158,28 @@ class BroadcastViewController: BaseViewController {
 }
 
 extension BroadcastViewController: LivePlayViewDelegate {
+    func closeComplete() {
+        DispatchQueue.main.async {
+            self.navigationController?.popViewController(animated: true)
+        }
+    }
+    
     func stopComplete() {
-        guard let roomID = videoRoomID else {return}
-        
         state = .end
         
-        let indicator = NVActivityIndicatorView(frame: CGRect(x: (view.frame.width - 100) / 2,
+        indicator = NVActivityIndicatorView(frame: CGRect(x: (view.frame.width - 100) / 2,
                                                               y: (view.frame.height - 100) / 2,
                                                               width: 100,
                                                               height: 100),
                                                 type: .ballSpinFadeLoader,
                                                 color: .orangeYellow)
-        self.view.addSubview(indicator)
-        indicator.startAnimating()
-        
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 5.0) {
-            RequestManager.req(url: .postBroadcastEnd,
-                               params: {
-                return [
-                    "contentsID": roomID
-                ]
-            },
-                               type: ErrorModel.self) { [weak self] isComplete, response, error in
-                guard let weakSelf = self else {return}
-                
-                DispatchQueue.main.async {
-                    weakSelf.navigationController?.popViewController(animated: true)
-                }
-            }
+        if let indicator {
+            self.view.addSubview(indicator)
+            indicator.startAnimating()
         }
     }
     
     func startComplete() {
-        guard let roomID = videoRoomID, let contents = broadcastContent else {return}
-        
         state = .started
         
         startView.removeFromSuperview()
@@ -246,37 +188,29 @@ extension BroadcastViewController: LivePlayViewDelegate {
                                               y: topPadding,
                                               width: view.frame.width,
                                               height: view.frame.height - topPadding - bottomPadding),
-                                data: contents, type: .streamer)
+                                title: "LIVE", appUsername: "", type: .streamer)
         view.addSubview(overView)
         
-        let indicator = NVActivityIndicatorView(frame: CGRect(x: (view.frame.width - 100) / 2,
+        indicator = NVActivityIndicatorView(frame: CGRect(x: (view.frame.width - 100) / 2,
                                                               y: (view.frame.height - 100) / 2,
                                                               width: 100,
                                                               height: 100),
                                                 type: .ballSpinFadeLoader,
                                                 color: .orangeYellow)
-        self.view.addSubview(indicator)
-        indicator.startAnimating()
-        
-        DispatchQueue.global().asyncAfter(deadline: DispatchTime.now() + 20.0) {
-            RequestManager.req(url: .postBroadcastStart,
-                               params: {
-                return [
-                    "contentsID": roomID
-                ]
-            },
-                               type: ErrorModel.self) { [weak self] isComplete, response, error in
-                guard let weakSelf = self else {return}
-                
-                indicator.removeFromSuperview()
-                if isComplete {
-                    
-                }
-            }
+        if let indicator {
+            self.view.addSubview(indicator)
+            indicator.startAnimating()
         }
     }
     
-    func receiveMessage(message: FFMessage) {
+    func activeComplete() {
+        DispatchQueue.main.async {
+            self.indicator?.removeFromSuperview()
+            self.indicator = nil
+        }
+    }
+    
+    func receiveMessage(message: FFLMessage) {
         if overView != nil {
             overView.appendMessage(message: message)
         }

@@ -8,11 +8,12 @@
 import Foundation
 import UIKit
 import SDWebImage
+import FlipFlopLiteSDK
 
 class BroadcastCell: UITableViewCell {
     let cellWidth = UIScreen.main.bounds.width
     
-    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, data: BroadcastListContent) {
+    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, data: VideoRoom) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
         backgroundColor = .clear
@@ -32,7 +33,7 @@ class BroadcastCell: UITableViewCell {
                                                width: cellWidth - imgView.getGapPos(gap: 12).x - 20,
                                                height: 26))
         titleLabel.backgroundColor = .clear
-        titleLabel.attributedText = NSAttributedString(string: data.title ?? "",
+        titleLabel.attributedText = NSAttributedString(string: data.title,
                                                        attributes: [
                                                         .foregroundColor: UIColor.black,
                                                         .font: UIFont.systemFont(ofSize: 16, weight: .bold),
@@ -46,7 +47,17 @@ class BroadcastCell: UITableViewCell {
                                                 width: cellWidth - imgView.getGapPos(gap: 12).x - 43,
                                                 height: 20))
         detailLabel.backgroundColor = .clear
-        detailLabel.attributedText = NSAttributedString(string: data.description ?? "",
+        let videoType: String
+        if (data.videoRoomState == "ENDED") {
+            if (data.vodState == "ARCHIVED") {
+                videoType = "VOD"
+            } else {
+                videoType = data.vodState
+            }
+        } else {
+            videoType = data.videoRoomState
+        }
+        detailLabel.attributedText = NSAttributedString(string: videoType,
                                                         attributes: [
                                                             .foregroundColor: UIColor.greyBlack3,
                                                             .font: UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -60,7 +71,7 @@ class BroadcastCell: UITableViewCell {
                                               width: cellWidth - imgView.getGapPos(gap: 12).x - 43,
                                               height: 20))
         dateLabel.backgroundColor = .clear
-        dateLabel.attributedText = NSAttributedString(string: data.createdAt?.convertTime() ?? "",
+        dateLabel.attributedText = NSAttributedString(string: data.liveStartedAt ?? "",
                                                       attributes: [
                                                             .foregroundColor: UIColor.brownGrey,
                                                             .font: UIFont.systemFont(ofSize: 12, weight: .regular)
@@ -72,7 +83,7 @@ class BroadcastCell: UITableViewCell {
                                                     y: imgView.getGapPos(gap: -38).y,
                                                     width: 32,
                                                     height: 32))
-        userImgView.sd_setImage(with: URL(string: data.member?.appUserProfileImgURL ?? "")) { image, error, _, requestUrl in
+        userImgView.sd_setImage(with: URL(string: "")) { image, error, _, requestUrl in
             if error != nil {
                 userImgView.image = UIImage(named: "ico_user")
             }
@@ -87,7 +98,7 @@ class BroadcastCell: UITableViewCell {
                                                   width: 100,
                                                   height: 20))
         userNameLabel.backgroundColor = .clear
-        userNameLabel.attributedText = NSAttributedString(string: data.member?.appUserName ?? "",
+        userNameLabel.attributedText = NSAttributedString(string: "username",
                                                           attributes: [
                                                             .foregroundColor: UIColor.black,
                                                             .font: UIFont.systemFont(ofSize: 12, weight: .bold)

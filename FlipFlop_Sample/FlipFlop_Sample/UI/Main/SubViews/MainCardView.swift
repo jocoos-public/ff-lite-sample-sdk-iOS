@@ -26,7 +26,7 @@ class MainCardView: UIView {
                                                width: frame.width - 60,
                                                height: 26))
         titleLabel.backgroundColor = .clear
-        titleLabel.attributedText = NSAttributedString(string: type == 0 ? "화상회의" : "FLIPFLOP",
+        titleLabel.attributedText = NSAttributedString(string: type == 0 ? "LIVE Streaming" : "Video List",
                                                        attributes: [
                                                         .foregroundColor: UIColor.black,
                                                         .font: UIFont.systemFont(ofSize: 20, weight: .bold)
@@ -39,7 +39,7 @@ class MainCardView: UIView {
                                               width: frame.width - 60,
                                               height: 26))
         descLabel.backgroundColor = .clear
-        descLabel.attributedText = NSAttributedString(string: type == 0 ? "간단한 설명 내용 간단한 설명 내용 간단한 설명 내용" : "간단한 설명 내용 간단한 설명 내용 간단한 설명 내용",
+        descLabel.attributedText = NSAttributedString(string: type == 0 ? "Live streaming description" : "Video list description",
                                                       attributes: [
                                                         .foregroundColor: UIColor.greyishBrown,
                                                         .font: UIFont.systemFont(ofSize: 12, weight: .regular)

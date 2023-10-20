@@ -9,8 +9,10 @@ import Foundation
 import UIKit
 
 class BroadcastListViewController: BaseViewController {
-    private var list: [BroadcastListContent] = []
+    private var list: [VideoRoom] = []
     private var contentTArea: UITableView!
+    
+    private var accessToken: String?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,22 +43,46 @@ class BroadcastListViewController: BaseViewController {
         contentTArea.separatorStyle = .none
         view.addSubview(contentTArea)
         
+        getAccessToken()
         getList()
     }
     
-    private func getList() {
-        RequestManager.req(url: .getVideoRooms,
-                           type: BroadCastListResModel.self) { [weak self] isComplete, response, error in
+    private func getAccessToken() {
+        guard let userData = DataStorage.loginUser else {return}
+        
+        // notice: do not use this code in your app.
+        //         get access token from your own server.
+        //         refer to the documentation
+        RequestManager.req(url: .postToken,
+                           params: {
+            return [
+                "appUserId": userData.id, "appUserName": userData.username
+            ]
+        },
+                           type: Token.self) { [weak self] isComplete, response, error in
             guard let weakSelf = self else {return}
             
             if isComplete {
                 if let res = response {
-                    var items: [BroadcastListContent] = []
-                    for content in res.content {
-                        if content.videoRoomState == .live || (content.videoRoomState?.rawValue == "ENDED" && content.vodState?.rawValue == "ARCHIVED") {
-                            items.append(content)
-                        }
-                    }
+                    weakSelf.accessToken = res.accessToken
+                }
+            }
+        }
+    }
+    
+    private func getList() {
+        // notice: do not use this code in your app.
+        //         get video list from your own server.
+        //         refer to the documentation
+        RequestManager.req(url: .getVideoRooms,
+                           type: VideoRooms.self) { [weak self] isComplete, response, error in
+            guard let weakSelf = self else {return}
+            
+            if isComplete {
+                if let res = response {
+                    var items: [VideoRoom] = []
+                    items.append(contentsOf: res.content)
+                    
                     weakSelf.list = items
                     
                     DispatchQueue.main.async {
@@ -88,13 +114,17 @@ extension BroadcastListViewController: UITableViewDelegate, UITableViewDataSourc
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let accessToken = self.accessToken else {
+            return
+        }
+        
         let selectContents = list[indexPath.row]
         
-        if selectContents.videoRoomState == .live {
-            let nextVC = BroadcastWatchViewController.getVC(videoRoomID: selectContents.id)
+        if selectContents.liveUrl != nil {
+            let nextVC = BroadcastWatchViewController.getVC(accessToken: accessToken, videoRoom: selectContents)
             navigationController?.pushViewController(nextVC, animated: true)
         } else {
-            let nextVC = VODWatchViewController.getVC(contentsID: selectContents.id)
+            let nextVC = VODWatchViewController.getVC(accessToken: accessToken, videoRoom: selectContents)
             navigationController?.pushViewController(nextVC, animated: true)
         }
     }

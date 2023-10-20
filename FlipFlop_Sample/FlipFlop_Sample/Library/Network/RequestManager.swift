@@ -13,27 +13,12 @@ class RequestManager {
     
     enum API: String {
         
-        case postUsers = "/users"
-        case postLogin = "/auth/login"
-        case postChatToken = "/auth/chat-token"
-        case getStreamKey = "/stream-keys"
-        case postVideoRooms = "/video-rooms{post}"
-        case getVideoRoomDetail = "/video-rooms/{contents_id}"
-        case getVideoRooms = "/video-rooms{get}"
-        case postBroadcastStart = "/video-rooms/{contents_id}/start-broadcast"
-        case postBroadcastEnd = "/video-rooms/{contents_id}/end-broadcast"
-        case postchatRoom = "/video-rooms/{contents_id}/chat-room"
+        case postToken = "/v2/apps/me/members/login"
+        case getVideoRooms = "/v2/apps/me/video-rooms"
         
         var method: HTTPMethod {
             switch self {
-            case .postUsers,
-                    .postLogin,
-                    .postChatToken,
-                    .postBroadcastStart,
-                    .postBroadcastEnd,
-                    .postchatRoom,
-                    .postVideoRooms
-                :
+            case .postToken:
                 return .post
             default:
                 return .get
@@ -42,14 +27,7 @@ class RequestManager {
         
         var encoding: ParameterEncoding {
             switch self {
-            case .postLogin,
-                    .postUsers,
-                    .postchatRoom,
-                    .postChatToken,
-                    .postVideoRooms,
-                    .postBroadcastEnd,
-                    .postBroadcastStart
-                :
+            case .postToken:
                 return JSONEncoding.default
             default:
                 return URLEncoding.default
@@ -59,7 +37,7 @@ class RequestManager {
     
     static var header: HTTPHeaders {
         var head = HTTPHeaders()
-        head.add(name: "Authorization", value: "Bearer " + DataStorage.token)
+        head.add(name: "Authorization", value: "Basic " + DataStorage.token)
         return head
     }
     

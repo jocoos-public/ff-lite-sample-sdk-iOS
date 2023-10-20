@@ -90,7 +90,7 @@ class LoginViewController: UIViewController {
                                                width: view.frame.width - 80,
                                                height: 18))
         firstGuide.backgroundColor = .clear
-        firstGuide.attributedText = NSAttributedString(string: "* 동영상은 1시간이 지나면 삭제됩니다.",
+        firstGuide.attributedText = NSAttributedString(string: "* Video will be deleted in an hour.",
                                                        attributes: [
                                                         .foregroundColor: UIColor.brownGrey,
                                                         .font: UIFont.systemFont(ofSize: 12)
@@ -102,7 +102,7 @@ class LoginViewController: UIViewController {
                                                width: view.frame.width - 80,
                                                height: 18))
         secondGuide.backgroundColor = .clear
-        secondGuide.attributedText = NSAttributedString(string: "* 프로필 이미지는 변경 가능 합니다.",
+        secondGuide.attributedText = NSAttributedString(string: "* You can change profile image.",
                                                        attributes: [
                                                         .foregroundColor: UIColor.brownGrey,
                                                         .font: UIFont.systemFont(ofSize: 12)
@@ -159,8 +159,8 @@ class LoginViewController: UIViewController {
     
     @objc private func loginAction() {
         guard let userName = nameField.text, userName.count != 0 else {
-            let alert = UIAlertController(title: nil, message: "사용자 이름을 입력해주세요", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "확인", style: .default))
+            let alert = UIAlertController(title: nil, message: "Please input username", preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: "OK", style: .default))
             self.present(alert, animated: true) {
                 self.nameField.becomeFirstResponder()
             }
@@ -168,37 +168,11 @@ class LoginViewController: UIViewController {
             return
         }
         
-        RequestManager.req(url: .postUsers,
-                           params: {
-            return [
-                "username": userName,
-                "password": "1234",
-                "email": "test@jocoos.com"
-            ]
-        },
-                           type: LoginUserResModel.self) { [weak self] isComplete, response, error in
-            guard let weakSelf = self else {return}
-            
-            if isComplete {
-                if let res = response {
-                    DataStorage.loginUser = res
-                    DataStorage.isLogined = true
-                    
-                    DataStorage.getToken()
-                    
-                    DispatchQueue.main.async {
-                        let nextVC = MainViewController()
-                        weakSelf.navigationController?.pushViewController(nextVC, animated: true)
-                    }
-                }
-            } else {
-                DispatchQueue.main.async {
-                    let alert = UIAlertController(title: nil, message: "정상적인 처리가 불가 합니다.", preferredStyle: .alert)
-                    alert.addAction(UIAlertAction(title: "확인", style: .default))
-                    weakSelf.present(alert, animated: true)
-                }
-            }
-        }
+        
+        DataStorage.loginUser = LoginUserResModel(username: userName, email: "", createdAt: "", updatedAt: "", id: "\(Date().millisecondsSince1970)")
+        DataStorage.isLogined = true
+        let nextVC = MainViewController()
+        self.navigationController?.pushViewController(nextVC, animated: true)
     }
 }
 
