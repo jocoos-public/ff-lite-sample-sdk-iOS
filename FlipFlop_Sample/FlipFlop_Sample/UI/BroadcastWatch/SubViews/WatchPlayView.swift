@@ -49,7 +49,9 @@ extension WatchPlayView: FFLLivePlayerDelegate {
         DispatchQueue.main.async {
             switch playerState {
             case .prepared:
-                self.player?.start()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    self.player?.start()
+                }
             case .started:
                 break
             case .paused:

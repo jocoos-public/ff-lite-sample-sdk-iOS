@@ -1,7 +1,7 @@
 PODS:
   - Alamofire (5.6.4)
   - DeviceKit (5.1.0)
-  - FlipFlopLiteSDK (1.3.3):
+  - FlipFlopLiteSDK (1.3.4):
     - DeviceKit (= 5.1.0)
     - LDSwiftEventSource (= 3.1.1)
     - Logboard (= 2.4.1)
@@ -21,7 +21,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - FlipFlopLiteSDK (= 1.3.3)
+  - FlipFlopLiteSDK (= 1.3.4)
   - NVActivityIndicatorView
   - SDWebImage (~> 5.0)
   - YUCIHighPassSkinSmoothing (= 1.4)
@@ -42,7 +42,7 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   DeviceKit: bcce5c26d9502e77e3a9fa5d1282877db388d922
-  FlipFlopLiteSDK: 23b83c2619615e9f7fec796a3ba9f3fe06f03b2a
+  FlipFlopLiteSDK: 4a53b1acc654e64a63afcb077fa1a7a7342de4fe
   LDSwiftEventSource: 3f9ff84ca80677f9a4f8596757dcb50026e4a13c
   Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
   MobileVLCKit: 144d5f565512d1147d63b0fa1379231b3fd66535
@@ -51,6 +51,6 @@ SPEC CHECKSUMS:
   Vivid: 0fde7409beac71224deb151dd78f98a5bb860497
   YUCIHighPassSkinSmoothing: 8418fd1bf605ec22b647c57745b863b352f72097
 
-PODFILE CHECKSUM: 7bb4d3cbb4260d4c690c695e7f1d080628c88031
+PODFILE CHECKSUM: 43984740027ff54d0e9067713608a277e5f6d8f3
 
 COCOAPODS: 1.11.3
