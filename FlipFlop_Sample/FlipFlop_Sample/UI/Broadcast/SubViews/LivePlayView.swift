@@ -13,7 +13,9 @@ import YUCIHighPassSkinSmoothing
 protocol LivePlayViewDelegate {
     func stopComplete()
     func startComplete()
-    func receiveMessage(message: FFMessage)
+    func activeComplete()
+    func closeComplete()
+    func receiveMessage(message: FFLMessage)
 }
 
 class HighpassSkinSmooth: VideoEffect {
@@ -123,19 +125,13 @@ class LivePlayView: UIView {
         backgroundColor = .black
     }
     
-    func setupPlayer(appID: String, userID: String, userName: String, streamKey: String, chatToken: String, channelKey: String) {
-        player = FlipFlopLite.getStreamer(appId: appID,
-                                          user: FFLite.User(userId: userID, username: userName),
-                                          streamKey: streamKey,
-                                          gossipToken: chatToken,
-                                          channelKey: channelKey)
+    func setupPlayer(accessToken: String) {
+        player = FlipFlopLite.getStreamer(accessToken: accessToken)
         
         player?.delegate = self
-        player?.enter()
         
         let config = FFStreamerConfig()
         config.videoBitrate = 2000 * 1000
-        config.keyFrameInterval = 2
         config.cameraPos = .back
         player?.prepare(preview: self, config: config)
     }
@@ -147,10 +143,12 @@ class LivePlayView: UIView {
     func stopAction() {
         if let player = player {
             player.stop()
+            player.exit()
         }
     }
     
     func startAction() {
+        player?.enter()
         player?.start()
     }
     
@@ -216,7 +214,7 @@ class LivePlayView: UIView {
     }
     
     func sendMessage(text: String, type: UserType) {
-        player?.liveChat()?.sendMessage(text: text, data: type == .streamer ? "OWNER" : "MEMBER")
+        player?.liveChat()?.sendMessage(message: text)
     }
     
     required init?(coder: NSCoder) {
@@ -225,111 +223,68 @@ class LivePlayView: UIView {
 }
 
 extension LivePlayView: FFLStreamerDelegate {
-    func onPrepared() {
-        print("onPrepared")
-    }
-    
-    func onStarted() {
-        print("onStarted")
-        self.delegate?.startComplete()
-    }
-    
-    func onStopped() {
-        print("onStoopped")
-        self.delegate?.stopComplete()
-    }
-    
-    func onError(error: FlipFlopLiteSDK.FFError) {
-        print("onError = ", error.localizedDescription)
-    }
-    
-    func onChatMessageReceived(message: FlipFlopLiteSDK.FFMessage) {
-        print("message = ", message.description)
-        
-        if message.type == "COMMAND" {
-            if let customType = message.customType {
-                switch customType {
-                case "MANAGER_OUT":
-                    //채팅 관리자 퇴장
-                    break
-                case "FORCE_END":
-                    //강제 종료
-                    break
-                case "FORCE_CANCEL":
-                    //강제 취소
-                    break
-                case "MANAGER":
-                    //채팅 매니저 설정
-                    break
-                case "NO_MANAGER":
-                    //채팅 매니저 설정 해제
-                    break
-                case "EXILE":
-                    //추방
-                    break
-                case "NO_VIEWER_CHAT":
-                    //시청자 채팅 정지
-                    break
-                case "VIEWER_CHAT":
-                    //시청자 채팅 정지 해제
-                    break
-                case "STREAM_KEY_STATUS_CHANGED":
-                    //스트림키 상태 변경
-                    break
-                case "PIN":
-                    //핀 메세지 설정
-                    break
-                case "NO_PIN":
-                    //핀 메세지 해제
-                    break
-                case "UPDATE_BROADCAST":
-                    //라이브 정보 변경
-                    break
-                case "NO_CHAT":
-                    //채팅창 전체 정지
-                    break
-                case "CHAT":
-                    //채팅창 전체 정지 해제
-                    break
-                case "UPDATE_STATUS":
-                    //라이브 상태 변경
-                    break
-                case "VISIBLE_MESSAGE":
-                    //메세지 활성화
-                    break
-                case "INVISIBLE_MESSAGE":
-                    //메세지 비 활성화
-                    break
-                case "HEART_COUNT":
-                    //좋아요 수 변경
-                    break
-                case "URL_CHANGED":
-                    //방송 URL 변경
-                    break
-                default:
-                    break
-                }
-            }
-        } else if message.type == "JOIN" {
-            delegate?.receiveMessage(message: message)
-        } else if message.type == "LEAVE" {
-        } else if message.type == "ADMIN" {
-            
-        } else {
-            delegate?.receiveMessage(message: message)
+    // StreamerState is updated
+    func fflStreamer(_ streamer: FFLStreamer, didUpdate streamerState: StreamerState) {
+        switch streamerState {
+        case .prepared:
+            print("streamer is prepared")
+        case .started:
+            print("streamer is started")
+            delegate?.startComplete()
+        case .stopped:
+            print("streamer is stopped")
+            delegate?.stopComplete()
+        case .closed:
+            print("streamer is closed")
+            delegate?.closeComplete()
+        default:
+            print("unknown streamState")
         }
     }
     
-    func onInSufficientBW() {
+    // BroadcastState is updated
+    func fflStreamer(_ streamer: FFLStreamer, didUpdate broadcastState: FlipFlopLiteSDK.BroadcastState) {
+        switch broadcastState {
+        case .active:
+            print("broadcasting is active")
+            delegate?.activeComplete()
+        case .inactive:
+            print("broadcasting is inactive")
+        default:
+            print("unknown BroadcastState: \(broadcastState)")
+        }
+    }
+    
+    // room for live streaming already exists
+    func fflStreamer(_ streamer: FFLStreamer, didExist videoRoom: FFLVideoRoom) {
         
     }
     
-    func onSufficientBW() {
+    // alarm is published
+    func fflStreamer(_ streamer: FFLStreamer, didPublish alarmState: AlarmState) {
         
     }
     
-    func onVideoBitrateChanged(newBitrate: Int) {
+    // video bitrate is changed
+    func fflStreamer(_ streamer: FFLStreamer, didChangeVideoBitrate bitrate: Int) {
         
+    }
+    
+    // camera zoom is changed
+    func fflStreamer(_ streamer: FFLStreamer, didChangeZoom zoomFactor: CGFloat) {
+        
+    }
+    
+    // chat message is received
+    func fflStreamer(_ streamer: FFLStreamer, didReceive message: FFLMessage) {
+        DispatchQueue.main.async {
+            self.delegate?.receiveMessage(message: message)
+        }
+    }
+    
+    // Some error happened
+    func fflStreamer(_ streamer: FFLStreamer, didFail error: FFError) {
+        print("onError = ", error.localizedDescription)
     }
 }
 

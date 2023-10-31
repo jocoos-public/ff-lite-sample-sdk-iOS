@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         UIApplication.shared.isIdleTimerDisabled = true
         
-        DataStorage.host = "https://sample-app-sg.lite.flipflop.tv"
+        DataStorage.host = ""
         
         window = UIWindow(frame: UIScreen.main.bounds)
         window?.windowScene = windowScene
@@ -58,9 +58,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
-        if DataStorage.isLogined {
-            DataStorage.getToken()
-        }
+//        if DataStorage.isLogined {
+//            DataStorage.getToken()
+//        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {

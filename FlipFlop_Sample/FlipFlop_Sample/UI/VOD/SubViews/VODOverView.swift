@@ -16,7 +16,7 @@ class VODOverView: UIView {
     private var likeCntLabel: UILabel!
     private var playBtn: UIButton!
     
-    init(frame: CGRect, data: BroadcastListContent) {
+    init(frame: CGRect, data: VideoRoom) {
         super.init(frame: frame)
         
         backgroundColor = .clear
@@ -26,7 +26,7 @@ class VODOverView: UIView {
                                                width: frame.width - 30,
                                                height: 27))
         titleLabel.backgroundColor = .clear
-        titleLabel.attributedText = NSAttributedString(string: data.title ?? "",
+        titleLabel.attributedText = NSAttributedString(string: data.title,
                                                        attributes: [
                                                         .foregroundColor: UIColor.white,
                                                         .font: UIFont.systemFont(ofSize: 18, weight: .bold),
@@ -57,7 +57,7 @@ class VODOverView: UIView {
                                                 width: 200,
                                                 height: 18))
         userNMLabel.backgroundColor = .clear
-        userNMLabel.attributedText = NSAttributedString(string: data.member?.appUserName ?? "",
+        userNMLabel.attributedText = NSAttributedString(string: "",
                                                         attributes: [
                                                             .foregroundColor: UIColor.white,
                                                             .font: UIFont.systemFont(ofSize: 12, weight: .medium)

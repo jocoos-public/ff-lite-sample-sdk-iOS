@@ -17,8 +17,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        let config = FFLConfig(serverAddr: "ingest-sg-sandbox.lite.flipflop.tv")
+        let config = FFLConfig(serverConfig: .dev)
         FlipFlopLite.initialize(config: config)
+        
+        DataStorage.initializeToken(apiKey: "", apiSecret: "")
         
         FirebaseApp.configure()
         

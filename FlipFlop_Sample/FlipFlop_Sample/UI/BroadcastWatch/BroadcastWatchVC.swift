@@ -11,18 +11,19 @@ import FlipFlopLiteSDK
 
 class BroadcastWatchViewController: BaseViewController {
     
-    static func getVC(videoRoomID: Int) -> BroadcastWatchViewController {
+    static func getVC(accessToken: String, videoRoom: VideoRoom) -> BroadcastWatchViewController {
         let vc = BroadcastWatchViewController()
-        vc.contentsID = videoRoomID
+        vc.videoRoom = videoRoom
+        vc.accessToken = accessToken
         return vc
     }
     
     private var playView: WatchPlayView!
     private var overView: PlayOverView!
     
-    private var contentsID: Int!
-    private var liveContents: BroadcastListContent?
-    private var liveUrl: String?
+    private var accessToken: String!
+    private var videoRoom: VideoRoom!
+    
     private var channelKey: String?
     private var chatToken: String?
     private var appID: String?
@@ -31,9 +32,8 @@ class BroadcastWatchViewController: BaseViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-     
-        getRoomInfo()
-        getChatToken()
+        
+        loadPlayer()
     }
     
     func sendMessage(text: String) {
@@ -41,71 +41,20 @@ class BroadcastWatchViewController: BaseViewController {
     }
     
     func closeAction() {
+        playView.closeAction()
         navigationController?.popViewController(animated: true)
     }
     
-    private func getRoomInfo() {
-        RequestManager.req(url: .getVideoRoomDetail,
-                           params: {
-            return [
-                "contentsID": self.contentsID
-            ]
-        },
-                           type: BroadcastListContent.self) { [weak self] isComplete, response, error in
-            guard let weakSelf = self else {return}
-            
-            if isComplete {
-                if let res = response {
-                    weakSelf.liveContents = res
-                    weakSelf.channelKey = res.chat?.channelKey
-                    weakSelf.liveUrl = res.liveURL
-                    
-                    DispatchQueue.main.async {
-                        weakSelf.loadPlayer()
-                    }
-                }
-            }
-        }
-    }
-    
-    private func getChatToken() {
-        RequestManager.req(url: .postChatToken,
-                           type: ChatTokenResModel.self) { [weak self] isComplete, response, error in
-            guard let weakSelf = self else {return}
-            
-            if isComplete {
-                if let res = response {
-                    weakSelf.chatToken = res.chatToken
-                    weakSelf.appID = res.appID
-                    weakSelf.userID = res.userID
-                    weakSelf.userName = res.userName
-                    DispatchQueue.main.async {
-                        weakSelf.loadPlayer()
-                    }
-                }
-            }
-        }
-    }
-    
     private func loadPlayer() {
-        guard let chatToken = chatToken,
-            let appID = appID,
-            let userID = userID,
-            let userName = userName,
-        let channelKey = channelKey,
-                let targetUrl = liveUrl else { return }
-        
         
         playView = WatchPlayView(frame: CGRect(x: 0,
                                                y: 0,
                                                width: view.frame.width,
                                                height: view.frame.height),
-                                 appID: appID,
-                                 userID: userID,
-                                 userName: userName,
-                                 token: chatToken,
-                                 key: channelKey,
-                                 targetUrl: targetUrl)
+                                 accessToken: accessToken,
+                                 videoRoomId: videoRoom.id,
+                                 channelId: videoRoom.channel?.id ?? 0,
+                                 targetUrl: videoRoom.liveUrl ?? "")
         playView.delegate = self
         view.addSubview(playView)
         
@@ -113,14 +62,15 @@ class BroadcastWatchViewController: BaseViewController {
                                               y: topPadding,
                                               width: view.frame.width,
                                               height: view.frame.height - topPadding - bottomPadding),
-                                         data: BroadcastContent(listContent: liveContents!),
-                                         type: .viewer)
+                                title: "LIVE",
+                                appUsername: "",
+                                type: .viewer)
         view.addSubview(overView)
     }
 }
 
 extension BroadcastWatchViewController: WatchPlayViewDelegate {
-    func receiveMessage(message: FFMessage) {
+    func receiveMessage(message: FFLMessage) {
         overView.appendMessage(message: message)
     }
 }

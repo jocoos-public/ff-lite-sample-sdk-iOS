@@ -17,7 +17,7 @@ class PlayOverView: UIView {
     private var likeCntLabel: UILabel!
     private var streamingBottomView: PlayBottomView!
     
-    init(frame: CGRect, data: BroadcastContent, type: UserType) {
+    init(frame: CGRect, title: String, appUsername: String, type: UserType) {
         super.init(frame: frame)
         
         NotificationCenter.default.addObserver(self,
@@ -34,7 +34,7 @@ class PlayOverView: UIView {
                                                width: frame.width - 30,
                                                height: 27))
         titleLabel.backgroundColor = .clear
-        titleLabel.attributedText = NSAttributedString(string: data.title ?? "",
+        titleLabel.attributedText = NSAttributedString(string: title ?? "",
                                                        attributes: [
                                                         .foregroundColor: UIColor.white,
                                                         .font: UIFont.systemFont(ofSize: 18, weight: .bold),
@@ -65,7 +65,7 @@ class PlayOverView: UIView {
                                                 width: 200,
                                                 height: 18))
         userNMLabel.backgroundColor = .clear
-        userNMLabel.attributedText = NSAttributedString(string: data.member?.appUserName ?? "",
+        userNMLabel.attributedText = NSAttributedString(string: appUsername ?? "",
                                                         attributes: [
                                                             .foregroundColor: UIColor.white,
                                                             .font: UIFont.systemFont(ofSize: 12, weight: .medium)
@@ -171,7 +171,7 @@ class PlayOverView: UIView {
         endEditing(true)
     }
     
-    func appendMessage(message: FFMessage) {
+    func appendMessage(message: FFLMessage) {
         streamingBottomView.appendMessage(message: message)
     }
     

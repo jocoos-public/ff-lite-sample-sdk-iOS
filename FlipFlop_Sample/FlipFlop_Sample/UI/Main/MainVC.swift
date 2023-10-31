@@ -37,7 +37,7 @@ class MainViewController: UIViewController {
                                                width: view.frame.width - 40,
                                                height: 17))
         guideLabel.backgroundColor = .clear
-        guideLabel.attributedText = NSAttributedString(string: "테스트를 진행 할 데모 메뉴를 선택하세요.",
+        guideLabel.attributedText = NSAttributedString(string: "",
                                                        attributes: [
                                                         .foregroundColor: UIColor.white,
                                                         .font: UIFont.systemFont(ofSize: 12)

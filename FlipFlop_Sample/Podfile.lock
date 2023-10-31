@@ -1,39 +1,27 @@
 PODS:
   - Alamofire (5.6.4)
-  - AWSCore (2.24.1)
-  - AWSLogs (2.24.1):
-    - AWSCore (= 2.24.1)
-  - AWSS3 (2.24.1):
-    - AWSCore (= 2.24.1)
-  - DeviceKit (4.4.0)
-  - FlipFlopLiteSDK (1.2.1):
-    - AWSLogs (= 2.24.1)
-    - AWSS3 (= 2.24.1)
-    - DeviceKit (= 4.4.0)
-    - GoogleWebRTC (= 1.1.31999)
-    - Logboard (= 2.2.2)
-    - Queuer (= 2.1.1)
-    - SocketRocket (= 0.5.1)
-    - Starscream (= 4.0.4)
-    - YUCIHighPassSkinSmoothing (= 1.4)
-  - GoogleWebRTC (1.1.31999)
-  - Logboard (2.2.2)
+  - DeviceKit (5.1.0)
+  - FlipFlopLiteSDK (1.3.4):
+    - DeviceKit (= 5.1.0)
+    - LDSwiftEventSource (= 3.1.1)
+    - Logboard (= 2.4.1)
+    - MobileVLCKit (= 3.5.1)
+  - LDSwiftEventSource (3.1.1)
+  - Logboard (2.4.1)
+  - MobileVLCKit (3.5.1)
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
-  - Queuer (2.1.1)
   - SDWebImage (5.15.5):
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
-  - SocketRocket (0.5.1)
-  - Starscream (4.0.4)
   - Vivid (0.9)
   - YUCIHighPassSkinSmoothing (1.4):
     - Vivid
 
 DEPENDENCIES:
   - Alamofire
-  - FlipFlopLiteSDK (= 1.2.1)
+  - FlipFlopLiteSDK (= 1.3.4)
   - NVActivityIndicatorView
   - SDWebImage (~> 5.0)
   - YUCIHighPassSkinSmoothing (= 1.4)
@@ -41,38 +29,28 @@ DEPENDENCIES:
 SPEC REPOS:
   trunk:
     - Alamofire
-    - AWSCore
-    - AWSLogs
-    - AWSS3
     - DeviceKit
     - FlipFlopLiteSDK
-    - GoogleWebRTC
+    - LDSwiftEventSource
     - Logboard
+    - MobileVLCKit
     - NVActivityIndicatorView
-    - Queuer
     - SDWebImage
-    - SocketRocket
-    - Starscream
     - Vivid
     - YUCIHighPassSkinSmoothing
 
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
-  AWSCore: f6cfada8b48d569c11b94e49e8fb184b9c1a2e7e
-  AWSLogs: 2267d63af2db9af83465e645719d58452bc99a44
-  AWSS3: e5b5a1595e08c52bb321495d7122e1d331134317
-  DeviceKit: 2c5d7485a2fa10b65c0091b2952d30843a6ba06d
-  FlipFlopLiteSDK: 42b9dc1cbb7530172ac2adfb92bce49be9a7e4a9
-  GoogleWebRTC: b39a78c4f5cc6b0323415b9233db03a2faa7b0f0
-  Logboard: 0ab6bbd984ed032b3f0b615cef06779a73445c80
+  DeviceKit: bcce5c26d9502e77e3a9fa5d1282877db388d922
+  FlipFlopLiteSDK: 4a53b1acc654e64a63afcb077fa1a7a7342de4fe
+  LDSwiftEventSource: 3f9ff84ca80677f9a4f8596757dcb50026e4a13c
+  Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
+  MobileVLCKit: 144d5f565512d1147d63b0fa1379231b3fd66535
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
-  Queuer: 65c5f6b821417bc62da23d63d570ec9d22bee4de
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
-  SocketRocket: d57c7159b83c3c6655745cd15302aa24b6bae531
-  Starscream: 5178aed56b316f13fa3bc55694e583d35dd414d9
   Vivid: 0fde7409beac71224deb151dd78f98a5bb860497
   YUCIHighPassSkinSmoothing: 8418fd1bf605ec22b647c57745b863b352f72097
 
-PODFILE CHECKSUM: ff4a479f990d8e37e9c1603ac277d87c1e05c794
+PODFILE CHECKSUM: 43984740027ff54d0e9067713608a277e5f6d8f3
 
-COCOAPODS: 1.12.1
+COCOAPODS: 1.11.3

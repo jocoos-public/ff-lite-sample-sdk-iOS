@@ -37,7 +37,7 @@ class DataStorage: NSObject {
                 return nil
             }
         }
-        
+
         set {
             if let user = newValue {
                 if let userData = try? JSONEncoder().encode(user) {
@@ -71,27 +71,10 @@ class DataStorage: NSObject {
     
     static var token: String = ""
     
-    static var fflToken: FFLTokensModel?
-    
-    static func getToken() {
-        guard let userData = loginUser else {return}
-        
-        
-        RequestManager.req(url: .postLogin,
-                           params: {
-            return [
-                "username": userData.username,
-                "password": "1234"
-            ]
-        },
-                           type: TokenResModel.self) { isComplete, response, error in
-            
-            if isComplete {
-                if let res = response {
-                    token = res.accessToken
-                    fflToken = res.fflTokens
-                }
-            }
-        }
+    static func initializeToken(apiKey: String, apiSecret: String) {
+        let loginString = String(format: "%@:%@", apiKey, apiSecret)
+        let loginData = loginString.data(using: String.Encoding.utf8)!
+        let base64LoginString = loginData.base64EncodedString()
+        token = base64LoginString
     }
 }

@@ -11,7 +11,7 @@ import FlipFlopLiteSDK
 
 class PlayBottomView: UIView {
     
-    var chatList: [FFMessage] = []
+    var chatList: [FFLMessage] = []
     
     private var chatTArea: UITableView!
     private var likeBtn: UIButton!
@@ -131,7 +131,7 @@ class PlayBottomView: UIView {
         }
     }
     
-    func appendMessage(message: FFMessage) {
+    func appendMessage(message: FFLMessage) {
         chatList.append(message)
         chatTArea.reloadData()
         chatTArea.scrollToRow(at: IndexPath(row: chatList.count - 1, section: 0), at: .bottom, animated: true)
@@ -172,11 +172,11 @@ extension PlayBottomView: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if let height = heightDic[chatList[indexPath.row].id] {
+        if let height = heightDic[chatList[indexPath.row].messageId] {
             return height
         } else {
             let cell = ChatCell(style: .default, reuseIdentifier: nil, message: chatList[indexPath.row], fullWidth: chatTArea.frame.width)
-            heightDic[chatList[indexPath.row].id] = cell.cellHeight
+            heightDic[chatList[indexPath.row].messageId] = cell.cellHeight
             return cell.cellHeight
         }
     }
