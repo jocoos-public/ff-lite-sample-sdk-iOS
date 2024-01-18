@@ -133,6 +133,7 @@ class LivePlayView: UIView {
         let config = FFStreamerConfig()
         config.videoBitrate = 2000 * 1000
         config.cameraPos = .back
+        config.echoCancellation = true
         player?.prepare(preview: self, config: config)
     }
     
@@ -148,6 +149,9 @@ class LivePlayView: UIView {
     }
     
     func startAction() {
+        guard let userData = DataStorage.loginUser else {return}
+        
+        player?.setVideoRoomInfo(title: "iOS-Sample-\(userData.username)")
         player?.enter()
         player?.start()
     }

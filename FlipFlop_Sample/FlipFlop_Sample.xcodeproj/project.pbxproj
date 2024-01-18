@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		46EFEB4C2B5638B50070B850 /* LiveListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EFEB4B2B5638B50070B850 /* LiveListView.swift */; };
 		524E54FA2A54229E00E4CEC9 /* UIColor_Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524E54F82A54229E00E4CEC9 /* UIColor_Ext.swift */; };
 		524E54FB2A54229E00E4CEC9 /* UIView_Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524E54F92A54229E00E4CEC9 /* UIView_Ext.swift */; };
 		524E55032A54234900E4CEC9 /* BaseVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 524E54FD2A54234900E4CEC9 /* BaseVC.swift */; };
@@ -51,6 +52,7 @@
 /* Begin PBXFileReference section */
 		1ACF06D068727578234F0E6F /* Pods_FlipFlop_Sample.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_FlipFlop_Sample.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		264DF3B121BF3777A5727C1C /* Pods-FlipFlop_Sample.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlipFlop_Sample.debug.xcconfig"; path = "Target Support Files/Pods-FlipFlop_Sample/Pods-FlipFlop_Sample.debug.xcconfig"; sourceTree = "<group>"; };
+		46EFEB4B2B5638B50070B850 /* LiveListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveListView.swift; sourceTree = "<group>"; };
 		524E54F82A54229E00E4CEC9 /* UIColor_Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIColor_Ext.swift; sourceTree = "<group>"; };
 		524E54F92A54229E00E4CEC9 /* UIView_Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UIView_Ext.swift; sourceTree = "<group>"; };
 		524E54FD2A54234900E4CEC9 /* BaseVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseVC.swift; sourceTree = "<group>"; };
@@ -239,6 +241,7 @@
 				524E55392A5643F400E4CEC9 /* ChatInputField.swift */,
 				524E55512A57CB6300E4CEC9 /* EffectSetView.swift */,
 				524E555C2A5811A200E4CEC9 /* ImageEffectView.swift */,
+				46EFEB4B2B5638B50070B850 /* LiveListView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -455,6 +458,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				524E54FB2A54229E00E4CEC9 /* UIView_Ext.swift in Sources */,
+				46EFEB4C2B5638B50070B850 /* LiveListView.swift in Sources */,
 				524E55032A54234900E4CEC9 /* BaseVC.swift in Sources */,
 				524E55482A566EC600E4CEC9 /* WatchPlayView.swift in Sources */,
 				52B226AE2A54215300212C03 /* ViewController.swift in Sources */,

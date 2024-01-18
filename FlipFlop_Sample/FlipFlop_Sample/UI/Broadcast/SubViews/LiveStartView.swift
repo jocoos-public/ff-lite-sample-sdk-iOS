@@ -61,6 +61,16 @@ class LiveStartView: UIView {
         moreBtn.addTarget(self, action: #selector(moreAction), for: .touchUpInside)
         addSubview(moreBtn)
         
+        let pipBtn = UIButton(type: .custom)
+        pipBtn.backgroundColor = .clear
+        pipBtn.frame = CGRect(x: 20,
+                              y: frame.height - 40,
+                              width: 28,
+                              height: 28)
+        pipBtn.setImage(UIImage(named: "pip"), for: .normal)
+        pipBtn.addTarget(self, action: #selector(pipAction), for: .touchUpInside)
+        addSubview(pipBtn)
+        
         switchBtn.center.y = startBtn.center.y
         moreBtn.center.y = startBtn.center.y
     }
@@ -79,13 +89,19 @@ class LiveStartView: UIView {
     
     @objc private func switchAction() {
         if let vc = findViewController() as? BroadcastViewController {
-            vc.switchAction()
+            vc.showEffect()
         }
     }
     
     @objc private func moreAction() {
         if let vc = findViewController() as? BroadcastViewController {
             vc.showImageEffect()
+        }
+    }
+    
+    @objc private func pipAction() {
+        if let vc = findViewController() as? BroadcastViewController {
+            vc.showLiveList()
         }
     }
     

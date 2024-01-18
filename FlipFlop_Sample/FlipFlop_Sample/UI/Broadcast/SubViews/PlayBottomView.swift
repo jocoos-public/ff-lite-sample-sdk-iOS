@@ -82,14 +82,15 @@ class PlayBottomView: UIView {
             cameraSwitchBtn.layer.shadowOffset = CGSize(width: 0, height: 1)
             addSubview(cameraSwitchBtn)
             
+            // watch video button
             likeBtn = UIButton(type: .custom)
             likeBtn.backgroundColor = UIColor.black.withAlphaComponent(0.2)
             likeBtn.frame = CGRect(x: frame.width - 55,
                                    y: cameraSwitchBtn.frame.origin.y - 50,
                                    width: 40,
                                    height: 40)
-            likeBtn.setImage(UIImage(named: "01AssetIcon2424IcoLike"), for: .normal)
-            likeBtn.addTarget(self, action: #selector(likeAction), for: .touchUpInside)
+            likeBtn.setImage(UIImage(named: "pip"), for: .normal)
+            likeBtn.addTarget(self, action: #selector(pipAction), for: .touchUpInside)
             likeBtn.layer.cornerRadius = 20
             likeBtn.layer.shadowColor = UIColor.black.withAlphaComponent(0.2).cgColor
             likeBtn.layer.shadowRadius = 1
@@ -145,13 +146,19 @@ class PlayBottomView: UIView {
     
     @objc private func moreAction() {
         if let vc = findViewController() as? BroadcastViewController {
-            vc.showEffect()
+            vc.showImageEffect()
         }
     }
     
     @objc private func cameraSwitchAction() {
         if let vc = findViewController() as? BroadcastViewController {
-            vc.switchAction()
+            vc.showEffect()
+        }
+    }
+    
+    @objc private func pipAction() {
+        if let vc = findViewController() as? BroadcastViewController {
+            vc.showLiveList()
         }
     }
     

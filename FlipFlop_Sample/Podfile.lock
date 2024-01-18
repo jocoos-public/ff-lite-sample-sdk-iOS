@@ -1,17 +1,27 @@
 PODS:
   - Alamofire (5.6.4)
   - DeviceKit (5.1.0)
-  - FlipFlopLiteSDK (1.3.4):
+  - FFmpegKit-mysangle (1.1.0):
+    - FFmpegKit-mysangle/FFmpegKit-mysangle (= 1.1.0)
+  - FFmpegKit-mysangle/FFmpegKit-mysangle (1.1.0):
+    - OpenSSL-mysangle
+  - FlipFlopLiteSDK (1.4.1):
     - DeviceKit (= 5.1.0)
+    - KSPlayer-mysangle (= 1.1.7)
     - LDSwiftEventSource (= 3.1.1)
     - Logboard (= 2.4.1)
-    - MobileVLCKit (= 3.5.1)
+  - KSPlayer-mysangle (1.1.7):
+    - KSPlayer-mysangle/MEPlayer (= 1.1.7)
+  - KSPlayer-mysangle/MEPlayer (1.1.7):
+    - FFmpegKit-mysangle
   - LDSwiftEventSource (3.1.1)
   - Logboard (2.4.1)
-  - MobileVLCKit (3.5.1)
   - NVActivityIndicatorView (5.1.1):
     - NVActivityIndicatorView/Base (= 5.1.1)
   - NVActivityIndicatorView/Base (5.1.1)
+  - OpenSSL-mysangle (1.1.0):
+    - OpenSSL-mysangle/OpenSSL (= 1.1.0)
+  - OpenSSL-mysangle/OpenSSL (1.1.0)
   - SDWebImage (5.15.5):
     - SDWebImage/Core (= 5.15.5)
   - SDWebImage/Core (5.15.5)
@@ -21,7 +31,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - FlipFlopLiteSDK (= 1.3.4)
+  - FlipFlopLiteSDK (= 1.4.1)
   - NVActivityIndicatorView
   - SDWebImage (~> 5.0)
   - YUCIHighPassSkinSmoothing (= 1.4)
@@ -30,11 +40,13 @@ SPEC REPOS:
   trunk:
     - Alamofire
     - DeviceKit
+    - FFmpegKit-mysangle
     - FlipFlopLiteSDK
+    - KSPlayer-mysangle
     - LDSwiftEventSource
     - Logboard
-    - MobileVLCKit
     - NVActivityIndicatorView
+    - OpenSSL-mysangle
     - SDWebImage
     - Vivid
     - YUCIHighPassSkinSmoothing
@@ -42,15 +54,17 @@ SPEC REPOS:
 SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   DeviceKit: bcce5c26d9502e77e3a9fa5d1282877db388d922
-  FlipFlopLiteSDK: 4a53b1acc654e64a63afcb077fa1a7a7342de4fe
+  FFmpegKit-mysangle: 26bcc86ca5d931756ddce39a107720178372b1da
+  FlipFlopLiteSDK: 1cf6499e035a1985e15481a14441e7d1ffd8f932
+  KSPlayer-mysangle: 824d35166797ad83c693beff9f44887bee13cb86
   LDSwiftEventSource: 3f9ff84ca80677f9a4f8596757dcb50026e4a13c
   Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
-  MobileVLCKit: 144d5f565512d1147d63b0fa1379231b3fd66535
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
+  OpenSSL-mysangle: addffedc4d2a24b6f60a9bca2c3e7b14baaff9e7
   SDWebImage: fd7e1a22f00303e058058278639bf6196ee431fe
   Vivid: 0fde7409beac71224deb151dd78f98a5bb860497
   YUCIHighPassSkinSmoothing: 8418fd1bf605ec22b647c57745b863b352f72097
 
-PODFILE CHECKSUM: 43984740027ff54d0e9067713608a277e5f6d8f3
+PODFILE CHECKSUM: 2ec03b42c2b13ea6e3128e03a955c11d899fe856
 
-COCOAPODS: 1.11.3
+COCOAPODS: 1.14.2

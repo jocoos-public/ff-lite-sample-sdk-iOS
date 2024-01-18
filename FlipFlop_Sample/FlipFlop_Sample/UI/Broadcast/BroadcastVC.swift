@@ -25,6 +25,8 @@ class BroadcastViewController: BaseViewController {
     private var overView: PlayOverView!
     private var effectView: EffectSetView!
     private var imgEffectView: ImageEffectView!
+    private var watchPlayView: WatchPlayView?
+    private var liveListView: LiveListView!
     
     private var accessToken: String?
     private var streamKey: String?
@@ -62,6 +64,10 @@ class BroadcastViewController: BaseViewController {
         imgEffectView.isHidden = true
         view.addSubview(imgEffectView)
         
+        liveListView = LiveListView(frame: view.bounds)
+        liveListView.isHidden = true
+        view.addSubview(liveListView)
+        
         getAccessToken()
     }
     
@@ -97,6 +103,11 @@ class BroadcastViewController: BaseViewController {
         }
     }
     
+    func showLiveList() {
+        view.bringSubviewToFront(liveListView)
+        liveListView.showAction()
+    }
+    
     func showEffect() {
         view.bringSubviewToFront(effectView)
         effectView.showAction()
@@ -127,6 +138,22 @@ class BroadcastViewController: BaseViewController {
         playView.setFilter(filter: selectFilter)
     }
     
+    func watchVideo(liveUrl: String) {
+        if let watchPlayView = self.watchPlayView {
+            watchPlayView.removeFromSuperview()
+        }
+        
+        self.watchPlayView = WatchPlayView(frame: CGRect(x: 0,
+                                                         y: 0,
+                                                         width: 240,
+                                                         height: 320),
+                                           accessToken: self.accessToken!,
+                                           videoRoomId: 0,
+                                           channelId: 0,
+                                           targetUrl: liveUrl)
+        self.view.addSubview(self.watchPlayView!)
+    }
+    
     func closeAction() {
         if state == .beforeStart {
             playView.reset()
@@ -134,6 +161,10 @@ class BroadcastViewController: BaseViewController {
         } else {
             playView.stopAction()
         }
+        
+        watchPlayView?.closeAction()
+        
+        closeComplete()
     }
     
     func switchAction() {
@@ -197,10 +228,10 @@ extension BroadcastViewController: LivePlayViewDelegate {
                                                               height: 100),
                                                 type: .ballSpinFadeLoader,
                                                 color: .orangeYellow)
-        if let indicator {
-            self.view.addSubview(indicator)
-            indicator.startAnimating()
-        }
+//        if let indicator {
+//            self.view.addSubview(indicator)
+//            indicator.startAnimating()
+//        }
     }
     
     func activeComplete() {
