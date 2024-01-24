@@ -19,12 +19,14 @@ class WatchPlayView: UIView {
     
     var delegate: WatchPlayViewDelegate?
     
-    init(frame: CGRect, accessToken: String, videoRoomId: UInt64, channelId: UInt64, targetUrl: String) {
+    init(frame: CGRect, accessToken: String, videoRoomId: UInt64, channelId: UInt64, targetUrl: String, lowLatency: Bool = false) {
         super.init(frame: frame)
         
         player = FlipFlopLite.getLivePlayer(accessToken: accessToken, videoRoomId: videoRoomId, channelId: channelId)
         player?.delegate = self
-        player?.prepare(view: self, uri: targetUrl)
+        let options = FFLLivePlayerOptions()
+        options.lowLatency = lowLatency
+        player?.prepare(view: self, uri: targetUrl, options: options)
         player?.enter()
     }
     

@@ -150,7 +150,8 @@ class BroadcastViewController: BaseViewController {
                                            accessToken: self.accessToken!,
                                            videoRoomId: 0,
                                            channelId: 0,
-                                           targetUrl: liveUrl)
+                                           targetUrl: liveUrl,
+                                           lowLatency: true)
         self.view.addSubview(self.watchPlayView!)
     }
     
