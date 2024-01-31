@@ -35,6 +35,8 @@ struct VideoRoom: Codable {
     let liveStartedAt: String?
     let liveEndedAt: String?
     let channel: Channel?
+    let rtmpPlayUrl: String?
+    let httpFlvPlayUrl: String?
 }
 
 struct Channel: Codable {

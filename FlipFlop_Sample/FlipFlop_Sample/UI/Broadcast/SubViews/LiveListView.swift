@@ -136,7 +136,9 @@ class LiveItemView: UIView {
     
     @objc private func selectItem(selectBtn: UIButton) {
         if let vc = findViewController() as? BroadcastViewController {
-            vc.watchVideo(liveUrl: list[selectBtn.tag].liveUrl ?? "")
+            let live = list[selectBtn.tag]
+            let liveUrl = live.httpFlvPlayUrl ?? live.rtmpPlayUrl ?? live.liveUrl ?? ""
+            vc.watchVideo(liveUrl: liveUrl)
         }
     }
     

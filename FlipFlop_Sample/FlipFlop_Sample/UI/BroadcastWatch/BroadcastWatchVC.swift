@@ -54,7 +54,8 @@ class BroadcastWatchViewController: BaseViewController {
                                  accessToken: accessToken,
                                  videoRoomId: videoRoom.id,
                                  channelId: videoRoom.channel?.id ?? 0,
-                                 targetUrl: videoRoom.liveUrl ?? "")
+                                 targetUrl: videoRoom.httpFlvPlayUrl ?? videoRoom.rtmpPlayUrl ?? videoRoom.liveUrl ?? "",
+                                 lowLatency: false)
         playView.delegate = self
         view.addSubview(playView)
         
