@@ -6,7 +6,7 @@ target 'FlipFlop_Sample' do
   use_frameworks!
 
   # Pods for FlipFlop_Sample
-pod "FlipFlopLiteSDK", '1.4.6'
+pod "FlipFlopLiteSDK", '1.4.8'
 pod 'SDWebImage', '~> 5.0'
 pod 'Alamofire'
 pod 'NVActivityIndicatorView'

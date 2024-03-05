@@ -5,14 +5,14 @@ PODS:
     - FFmpegKit-mysangle/FFmpegKit-mysangle (= 1.1.0)
   - FFmpegKit-mysangle/FFmpegKit-mysangle (1.1.0):
     - OpenSSL-mysangle
-  - FlipFlopLiteSDK (1.4.5):
+  - FlipFlopLiteSDK (1.4.8):
     - DeviceKit (= 5.1.0)
-    - KSPlayer-mysangle (= 1.1.7)
+    - KSPlayer-mysangle (= 1.1.9)
     - LDSwiftEventSource (= 3.1.1)
     - Logboard (= 2.4.1)
-  - KSPlayer-mysangle (1.1.7):
-    - KSPlayer-mysangle/MEPlayer (= 1.1.7)
-  - KSPlayer-mysangle/MEPlayer (1.1.7):
+  - KSPlayer-mysangle (1.1.9):
+    - KSPlayer-mysangle/MEPlayer (= 1.1.9)
+  - KSPlayer-mysangle/MEPlayer (1.1.9):
     - FFmpegKit-mysangle
   - LDSwiftEventSource (3.1.1)
   - Logboard (2.4.1)
@@ -31,7 +31,7 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
-  - FlipFlopLiteSDK (= 1.4.5)
+  - FlipFlopLiteSDK (= 1.4.8)
   - NVActivityIndicatorView
   - SDWebImage (~> 5.0)
   - YUCIHighPassSkinSmoothing (= 1.4)
@@ -55,8 +55,8 @@ SPEC CHECKSUMS:
   Alamofire: 4e95d97098eacb88856099c4fc79b526a299e48c
   DeviceKit: bcce5c26d9502e77e3a9fa5d1282877db388d922
   FFmpegKit-mysangle: 26bcc86ca5d931756ddce39a107720178372b1da
-  FlipFlopLiteSDK: 1840847116dde42ae99ded92691c050c84bd0e10
-  KSPlayer-mysangle: 824d35166797ad83c693beff9f44887bee13cb86
+  FlipFlopLiteSDK: 80612cecaa363ae6ab9af305939224cc1f927a58
+  KSPlayer-mysangle: c5f0f28b73c3812b8cd5093fdf480afd1e7980e9
   LDSwiftEventSource: 3f9ff84ca80677f9a4f8596757dcb50026e4a13c
   Logboard: b78984e3f9fa5075d5bfd9308d51b453992aad0e
   NVActivityIndicatorView: 1f6c5687f1171810aa27a3296814dc2d7dec3667
@@ -65,6 +65,6 @@ SPEC CHECKSUMS:
   Vivid: 0fde7409beac71224deb151dd78f98a5bb860497
   YUCIHighPassSkinSmoothing: 8418fd1bf605ec22b647c57745b863b352f72097
 
-PODFILE CHECKSUM: 26aae1a7e1eddf9f653b20c4d13b69dfd44bde75
+PODFILE CHECKSUM: 53ccdec1464a2988bb2334e3c784fb93fa87bfd5
 
 COCOAPODS: 1.14.2

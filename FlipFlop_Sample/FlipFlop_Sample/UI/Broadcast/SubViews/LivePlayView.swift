@@ -46,21 +46,28 @@ class HighpassSkinSmoothColor: VideoEffect {
         self.color = color
         super.init()
     }
-    override func execute(_ image: CIImage) -> CIImage {
-        filter.inputImage = image
+    override func execute(_ image: CIImage, cvPixelBuffer buffer: CVPixelBuffer?) -> CIImage {
+        var img: CIImage
+        if let buffer = buffer {
+            img = CIImage(cvPixelBuffer: buffer)
+        } else {
+            img = image
+        }
+        
+        filter.inputImage = img
 
         if colorImage == nil || isColorChanged {
             isColorChanged = false
-            let ext = image.extent
+            let ext = img.extent
             colorImage = CIImage(image: color.imageWithColor(width: ext.width/UIScreen.main.nativeScale, height: ext.height/UIScreen.main.nativeScale))!
         }
 
         overlayFilter.setValue(colorImage, forKey: kCIInputImageKey)
         overlayFilter.setValue(filter.outputImage!, forKey: kCIInputBackgroundImageKey)
         guard let ciContext = ciContext else {
-            return image
+            return img
         }
-        return CIImage(cgImage: ciContext.createCGImage(overlayFilter.outputImage!, from: image.extent)!)
+        return CIImage(cgImage: ciContext.createCGImage(overlayFilter.outputImage!, from: img.extent)!)
     }
 }
 
